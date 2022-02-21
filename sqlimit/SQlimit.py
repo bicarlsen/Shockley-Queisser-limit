@@ -11,15 +11,16 @@ import matplotlib.colors as pltcolors
 import matplotlib.cm as pltcm
 from scipy.integrate import cumtrapz
 
-try:  # use seaborn to choose better colors
-    import seaborn.apionly as sns
-    with_sns = True
-except:  # if you don't have seaborn
-    with_sns = False
+with_sns = False
+# try:  # use seaborn to choose better colors
+#     import seaborn.apionly as sns
+#     with_sns = True
+# except:  # if you don't have seaborn
+#     with_sns = False
 # plt.style.use(['ggplot','dark_background'])
 
-plt.ion()
-plt.style.use('ggplot')
+# plt.ion()
+# plt.style.use('ggplot')
 
 
 k = 1.38064852e-23  # m^2 kg s^-2 K^-1, Boltzmi constant
