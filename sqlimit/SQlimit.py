@@ -2,6 +2,7 @@
 """
 @author: C. Marcus Chuang 2016
 """
+import pkg_resources
 
 import pandas as pd
 import numpy as np
@@ -9,12 +10,14 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as pltcolors
 import matplotlib.cm as pltcm
 from scipy.integrate import cumtrapz
+
 try:  # use seaborn to choose better colors
     import seaborn.apionly as sns
     with_sns = True
 except:  # if you don't have seaborn
     with_sns = False
 # plt.style.use(['ggplot','dark_background'])
+
 plt.ion()
 plt.style.use('ggplot')
 
@@ -26,7 +29,10 @@ eV = 1.6021766208e-19  # joule        , eV to joule
 q = 1.6021766208e-19  # C             , elemental charge
 
 # http://rredc.nrel.gov/solar/spectra/am1.5/
-ref_solar = pd.read_csv("ASTMG173.csv", header=1)  # nm vs W m^-2 nm^-1
+astm_g173_file = str( pkg_resources.resource_filename(__name__, "data/ASTMG173.csv") )
+
+
+ref_solar = pd.read_csv(astm_g173_file, header=1)  # nm vs W m^-2 nm^-1
 # data range: 280nm to 4000nm, 0.31eV to 4.42857 eV
 # WL (nm), W*m-2*nm-1
 WL, solar_per_nm = ref_solar.iloc[:, 0], ref_solar.iloc[:, 2]
@@ -135,7 +141,7 @@ class SQlim(object):
         """
 
         if not self.Es[0] <= Eg <= self.Es[-1]:
-            print "invalid bandgap \nvalid range: 0.32 to 4.4"
+            print( "invalid bandgap \nvalid range: 0.32 to 4.4" )
             return
         V = np.arange(Vmin, Eg, Vstep)
         paras = self.get_paras(Eg, toPrint=False)
@@ -175,7 +181,7 @@ class SQlim(object):
         '''
 
         if not self.Es[0] <= Eg <= self.Es[-1]:
-            print "invalid bandgap \nvalid range: 0.32 to 4.4"
+            print( "invalid bandgap \nvalid range: 0.32 to 4.4" )
             return
         para = {}
         # could change these to binary search
@@ -186,13 +192,13 @@ class SQlim(object):
         para["J0"] = np.interp([Eg], self.Es, self.J0)[0]
 
         if toPrint:  # won't return anything; print in console instead
-            print
-            print "Bandgap: {0:.3f} eV \n".format(Eg)
-            print "J0 = {0:.3g} mA/cm^2".format(para["J0"])
-            print "Voc = {0:.4g} \t V".format(para["Voc"])
-            print "Jsc = {0:.4g} \t mA/cm^2".format(para["Jsc"])
-            print "FF  = {0:.2f} \t %".format(para["FF"])
-            print "PCE = {0:.3f} \t %".format(para["PCE"])
+            print()
+            print( "Bandgap: {0:.3f} eV \n".format(Eg) )
+            print( "J0 = {0:.3g} mA/cm^2".format(para["J0"]) )
+            print( "Voc = {0:.4g} \t V".format(para["Voc"]) )
+            print( "Jsc = {0:.4g} \t mA/cm^2".format(para["Jsc"]) )
+            print( "FF  = {0:.2f} \t %".format(para["FF"]) )
+            print( "PCE = {0:.3f} \t %".format(para["PCE"]) )
             return
 
         return para
@@ -220,8 +226,8 @@ class SQlim(object):
         """
 
         if para not in self.paras:
-            print "Invalid input! Valid inputs are:"
-            print '"Voc", "Jsc", "FF", "PCE", and "J0"'
+            print( "Invalid input! Valid inputs are:" )
+            print( '"Voc", "Jsc", "FF", "PCE", and "J0"' )
             return
         yunits = {"Voc": "(V)", "Jsc": "(mA/$\mathregular{cm^2}$)",
                   "FF": "(%)", "J0": "(mA/$\mathregular{cm^2}$)",
@@ -273,7 +279,7 @@ class SQlim(object):
         """
 
         if Eg > 4.2 or Eg < 0.32:
-            print "invalid bandgap \nvalid range: 0.32 to 4.2"
+            print( "invalid bandgap \nvalid range: 0.32 to 4.2" )
             return None
 
         xmax = max(xmax, 1240.0 / Eg)
@@ -379,7 +385,7 @@ class SQlim(object):
             numEg, Egs = 1, [Egs]
         EgMax, Egmin = max(Egs), min(Egs)
         if EgMax > 4.2 or Egmin < 0.32:
-            print "invalid bandgap \nvalid range: 0.32 to 4.2 eV"
+            print( "invalid bandgap \nvalid range: 0.32 to 4.2 eV" )
             return None
         xmax = max(xmax, 1240.0 / Egmin)
         xmin = min(xmin, 1240.0 / EgMax)
@@ -473,7 +479,7 @@ class SQlim(object):
         plt.figure()
         parameters = {"PCE", "Jsc", "FF", "Voc", "J0"}
         if attr not in parameters:
-            print "Invalid attribute"
+            print( "Invalid attribute" )
             return
         SQs = [SQlim(T=temp) for temp in sorted(T)]
         for SQ in SQs:
@@ -490,7 +496,7 @@ class SQlim(object):
         plt.figure()
         parameters = {"PCE", "Jsc", "FF", "Voc", "J0"}
         if attr not in parameters:
-            print "Invalid attribute"
+            print( "Invalid attribute" )
             return
         SQs = [SQlim(EQE_EL=EQE) for EQE in sorted(EQE_EL, reverse=True)]
         for SQ in SQs:
@@ -509,7 +515,7 @@ class SQlim(object):
         plt.figure()
         parameters = {"PCE", "Jsc", "FF", "Voc", "J0"}
         if attr not in parameters:
-            print "Invalid attribute"
+            print( "Invalid attribute" )
             return
         SQs = [SQlim(intensity=sun) for sun in sorted(Suns, reverse=True)]
         for SQ in SQs:
