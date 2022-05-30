@@ -1,6 +1,7 @@
 # Shockley Queisser limit : 
 ## Theoretical Solar Cell Efficiencies calculator and visualizer
 > Based off of [marcus-cmc/Shockley-Queisser-limit](https://github.com/marcus-cmc/Shockley-Queisser-limit), updated for Python 3 and PyPI.
+
 > pip install sqlimit
 
 It calculates the theoretical solar cell parameters with options to change temperature, light intensity, and radiative efficiency, provides visualization tools. 
