@@ -406,7 +406,7 @@ class SQlim(object):
         E_subcell["Solar"] = AM15nm
         PCEsubcell, tot_E = [], 1000.0
 
-        Jscs = [SQ.get_paras(E, toPrint=False)["Jsc"] for E in Egs[:-1]]
+        Jscs = [self.get_paras(E, toPrint=False)["Jsc"] for E in Egs[:-1]]
         Jscs.append(0.0)
 
         if with_sns:
@@ -415,8 +415,9 @@ class SQlim(object):
             cm = plt.get_cmap('gist_rainbow')  # gist_rainbow
             cNorm = pltcolors.Normalize(0, 1.2 * (numEg-1))
             scalarMap = pltcm.ScalarMappable(norm=cNorm, cmap=cm)
-            colors = [scalarMap.to_rgba(i) for i in xrange(numEg)]
+            colors = [scalarMap.to_rgba(i) for i in range(numEg)]
 
+        E_subcells = {}
         for n, Eg in enumerate(Egs[:-1]):
             color = colors[n]
             if E_MPP:
@@ -426,10 +427,14 @@ class SQlim(object):
                 factor = para["Voc"] * para["FF"] / 100.0 / Eg
             mask = ((1240.0/WLs) >= Eg) * (Egs[n+1] >= (1240.0/WLs))
             Eavail = factor * AM15nm / (1240.0/WLs) * Eg * mask
-            E_subcell["Eg=" + str(round(Eg, 3))] = Eavail
+
+            E_subcells[ "Eg=" + str(round(Eg, 3)) ] = Eavail 
+            # E_subcell["Eg=" + str(round(Eg, 3))] = Eavail
             PCEsubcell.append(100 * np.sum(Eavail) / tot_E)
             ax.fill_between(WLs, 0, Eavail, facecolor=color, linewidth=0.0)
             # ax.fill_between(WLs, 0, Eavail, facecolor=color, linewidth=0.2)
+
+        
 
         ax.set_xlim(xmin, xmax)
         ax.set_ylabel("Irradiance  (W $\mathregular{m^{-2}\ nm^{-1}}$)",
@@ -557,7 +562,7 @@ class SQlim(object):
         P = [0] + [SQ.get_paras(E, toPrint=False)["Jsc"] for E in Es]
         df = pd.DataFrame()
         df["Bandgap (eV)"] = Es
-        df["Jsc (mA/cm2)"] = [P[i] - P[i-1] for i in xrange(1, len(P))]
+        df["Jsc (mA/cm2)"] = [P[i] - P[i-1] for i in range(1, len(P))]
 
         return df
 

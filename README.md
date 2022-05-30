@@ -1,5 +1,7 @@
 # Shockley Queisser limit : 
 ## Theoretical Solar Cell Efficiencies calculator and visualizer
+> Based off of [marcus-cmc/Shockley-Queisser-limit](https://github.com/marcus-cmc/Shockley-Queisser-limit), updated for Python 3 and PyPI.
+> pip install sqlimit
 
 It calculates the theoretical solar cell parameters with options to change temperature, light intensity, and radiative efficiency, provides visualization tools. 
 
@@ -161,9 +163,6 @@ Its overall power conversion efficiency is 67.1%
 <img src="/ExampleOutputFig/MJ496to4200meV_50J.png" width="800">
 
 
-#
-#
-#
 # Different Conditions
 
 The default conditions for calculating the theoretical limits are the standard conditions : Temperature `T = 300` K, 1-sun condition `intensity = 1.0`, and radiative efficiency `EQE_EL = 1.0` (100% external quantum efficiency for electroluminescence). 
@@ -211,10 +210,3 @@ SQlim.vary_suns(Suns=[1, 10, 100, 1000])
 SQlim.vary_EQE_EL(EQE_EL=[1, 1E-2, 1E-4, 1E-6])
 ```
 <img src="/ExampleOutputFig/VaryEQEEL.png" width="800">
-
-
-
-
-
-
-
