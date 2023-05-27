@@ -585,11 +585,12 @@ class SQlim(object):
 if __name__ == "__main__":
     #plt.close('all')
     SQ = SQlim()
-    SQ.plot()
-    SQ.plotall()
-    SQ.E_loss(1.337)
-    SQ.available_E(1.8)
-    SQ.simulate_JV(1.3, plot=True)
+    #SQ.plot()
+    #SQ.plotall()
+    SQ.E_loss(1.82)
+    SQ.available_E(1.82)
+    SQ.simulate_JV(1.82, plot=True)
+    SQ.get_paras(Eg=1.337)
     plt.show()
 
     """
