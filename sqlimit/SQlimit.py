@@ -333,7 +333,7 @@ class SQlim(object):
 
         ax.plot([Eg], [0])
         ax.legend(legends, labels, frameon=False, title=legendtitle,
-                  fontsize=14, loc="upper right").draggable()
+                  fontsize=14, loc="upper right").set_draggable(state= 1)
         ax.get_legend().get_title().set_fontsize(14)
 
         ax.set_xlim(xmin, xmax)
@@ -456,14 +456,14 @@ class SQlim(object):
                           for i in range(numEg - 1, -1, -1)]
 
             ax.legend(legends, labels, frameon=False, loc="upper right",
-                      fontsize=14).draggable()
+                      fontsize=14).set_draggable(state= 1)
 
         if numEg != 1 and legend_totE:
             totE = np.nansum(PCEsubcell)  # small slice would have nan PCE
             legend_title = "Total = {0:.1f} %".format(totE)
             if not ax.get_legend():
                 ax.legend("", "", frameon=False, loc="upper right",
-                          title=legend_title, fontsize=14).draggable()
+                          title=legend_title, fontsize=14).set_draggable(state= 1)
             else:
                 ax.get_legend().set_title(legend_title)
             ax.get_legend().get_title().set_fontsize(14)
@@ -543,7 +543,7 @@ class SQlim(object):
         plt.xlim(xlim)
         plt.tick_params(labelsize=18)
         ax = plt.gca()
-        ax.legend(loc='upper right', fontsize=16).draggable()
+        ax.legend(loc='upper right', fontsize=16).set_draggable(state= 1)
         plt.tight_layout()
 
         return
@@ -585,10 +585,12 @@ class SQlim(object):
 if __name__ == "__main__":
     #plt.close('all')
     SQ = SQlim()
-    SQ.plot()
-    SQ.plotall()
-    SQ.E_loss(1.337)
-    SQ.available_E(1.6)
+    #SQ.plot()
+    #SQ.plotall()
+    SQ.E_loss(1.82)
+    SQ.available_E(1.82)
+    SQ.simulate_JV(1.82, plot=True)
+    SQ.get_paras(Eg=1.337)
     plt.show()
 
     """
